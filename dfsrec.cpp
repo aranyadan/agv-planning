@@ -26,7 +26,21 @@ public:
     }
 
  };
-nodes *a;
+
+nodes *a; 
+void dfsimplement(int current_id)
+{
+    if( a[current_id].visit==0)
+    {
+        a[current_id].visit=1;
+        cout<<a[current_id].id<<",";
+        for(int i=0;i<a[current_id].link_count;i++)
+        {
+            dfsimplement((a[current_id].ptr[i])->id-1);
+        }
+    }
+    return;
+}
 int main()
 {
     int num_of_node; // the total number of nodes in the level
@@ -50,7 +64,7 @@ int main()
         a[connector2-1].ptr[((a[connector2-1].link_count)++)]=&a[connector1-1];                  //turn on for back connectivity
 
     }
-    /*for(int i=0;i<num_of_node;i++)                 //use for checking the graph
+    /*for(int i=0;i<num_of_node;i++)                 //for checking the graph
     { 
         cout<<a[i].id<<"\n";
         cout<<"connected to-\n";
@@ -60,29 +74,11 @@ int main()
         }
         cout<<"\n";
     }*/
-    queue<int> temp_queue_for_bfs;
 
     cout<<"Enter starting index:\n";
-    int start_index; // The index of the node on which you start
+    int start_index; 
     cin >> start_index; cin.ignore();    
-
-    temp_queue_for_bfs.push(start_index-1);
-    //bfs starts here
-    cout<<"bfs-\n";
-    while(!temp_queue_for_bfs.empty())
-    {
-        int temp=temp_queue_for_bfs.front();
-        temp_queue_for_bfs.pop();
-        if(a[temp].visit==0)
-        {
-            a[temp].visit=1;
-            for(int i=0;i<a[temp].link_count; i++)
-            {
-                temp_queue_for_bfs.push((a[temp].ptr[i])->id-1);
-            }
-            cout<<temp+1<<",";
-        }
-        
-    }
+    cout<<"dfs-\n";
+    dfsimplement(start_index-1);
     cout<<"\n";    
 }
